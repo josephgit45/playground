@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const axios = require("axios");
 const app = express();
@@ -6,11 +7,8 @@ const port = 3000;
 app.get("/", async (req, res) => {
   try {
     const message = req.query.message;
-    const response = await axios.post(
-      "https://webhook.site/3a9dbce0-5f51-4f1f-a2b9-120fa83ea39a",
-      { message }
-    );
-    res.json({ message: message });
+    const response = await axios.post(process.env.WEBHOOK_URL, { message });
+    res.json({ message: response.data });
   } catch (error) {
     res.status(500).send(error);
   }
